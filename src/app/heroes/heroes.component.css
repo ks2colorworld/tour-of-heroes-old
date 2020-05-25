@@ -62,3 +62,11 @@ button.delete {
   background-color: gray !important;
   color: white;
 }
+input {
+  margin-right: 5px;
+}
+label {
+  width: 3em;
+  color: #607D8B;
+  font-weight: bold;
+}
