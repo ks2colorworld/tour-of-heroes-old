@@ -23,6 +23,7 @@ h4 {
   position: relative;
 }
 .grid {
+  display: block;
   margin: 0;
 }
 .col-1-4 {
@@ -50,11 +51,12 @@ h4 {
 }
 @media (max-width: 600px) {
   .module {
-    font-size: 10px;
-    max-height: 75px; }
+    font-size: 12px;
+    max-height: 90px; }
 }
 @media (max-width: 1024px) {
   .grid {
+    height: 140px;
     margin: 0;
   }
   .module {

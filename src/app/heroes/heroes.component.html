@@ -1,15 +1,5 @@
 <h2>My Heroes</h2>
 
-<div>
-  <label>Hero name:
-    <input #heroName />
-  </label>
-  <!-- (click) 이벤트를 감지하면 현재값을 인자로 전달하면서 add() 함수를 실행하고, 입력 필드를 비웁니다. -->
-  <button (click)="add(heroName.value); heroName.value=''">
-    add
-  </button>
-</div>
-
 <ul class="heroes">
   <li *ngFor="let hero of heroes">
     <a routerLink="/detail/{{hero.id}}">
@@ -19,3 +9,13 @@
       (click)="delete(hero)">x</button>
   </li>
 </ul>
+
+<div>
+  <label>Hero name:
+    <input #heroName (keyup.enter)="add(heroName.value); heroName.value=''"/>
+  </label>
+  <!-- (click) 이벤트를 감지하면 현재값을 인자로 전달하면서 add() 함수를 실행하고, 입력 필드를 비웁니다. -->
+  <button (click)="add(heroName.value); heroName.value=''">
+    add
+  </button>
+</div>

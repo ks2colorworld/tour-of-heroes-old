@@ -23,8 +23,9 @@ export class HeroDetailComponent implements OnInit {
   }
 
   getHero(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.heroService.getHero(id)
+    const id = +this.route.snapshot.paramMap.get('id'); // url 형식 : /detail/:id (app-routing.module.ts에서 확인)
+    // 데이터 없는 sample url : http://localhost:4200/detail/10
+    this.heroService.getHero(id) // >> 404 error // .getHeroNo404<Hero>(id) // >> no error
       .subscribe(hero => this.hero = hero);
   }
 
@@ -32,7 +33,7 @@ export class HeroDetailComponent implements OnInit {
     this.location.back();
   }
 
-  save(): void {
+  updateHero(): void {
     this.heroService.updateHero(this.hero)
       .subscribe(() => this.goBack());
   }

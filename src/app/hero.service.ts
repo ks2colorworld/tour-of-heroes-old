@@ -30,16 +30,16 @@ export class HeroService {
   }
 
   /** GET: id에 해당하는 히어로 데이터를 가져옵니다. 존재하지 않으면 `undefined`를 반환합니다. */
-  getHeroNo404<Hero>(id: number): Observable<Hero> {
+  getHeroNo404<T>(id: number): Observable<T> {
     const url = `${this.heroesUrl}/?id=${id}`;
-    return this.http.get<Hero[]>(url)
+    return this.http.get<T[]>(url)
       .pipe(
         map(heroes => heroes[0]), // 배열에 있는 항목 중 하나만 반환합니다.
         tap(h => {
           const outcome = h ? `fetched` : `did not find`;
           this.log(`${outcome} hero id=${id}`);
         }),
-        catchError(this.handleError<Hero>(`getHero id=${id}`))
+        catchError(this.handleError<T>(`getHero id=${id}`, undefined))
       );
   }
 
