@@ -19,7 +19,16 @@ export class DashboardComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes.slice(1, 5));
+    this.heroService.getHeroes().subscribe(
+      heroes => {
+        /* 데이트 확인용 샘플코드
+        heroes.forEach(
+          (hero, index) => {
+            console.log(index, hero.id);
+        });
+        // */
+        this.heroes = heroes.slice(0, 4);
+      }
+    );
   }
 }

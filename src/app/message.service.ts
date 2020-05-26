@@ -9,7 +9,7 @@ export class MessageService {
   constructor() { }
 
   add(message: string) {
-    this.messages.push(message);
+    this.messages.unshift(message);
   }
 
   clear() {
