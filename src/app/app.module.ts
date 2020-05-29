@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -14,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { HeroDetailViewComponent } from './hero-detail-view/hero-detail-view.component';
+import { HeroSearchNewComponent } from './hero-search-new/hero-search-new.component';
 
 @NgModule({
   declarations: [
@@ -23,10 +25,12 @@ import { HeroDetailViewComponent } from './hero-detail-view/hero-detail-view.com
     MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
-    HeroDetailViewComponent
+    HeroDetailViewComponent,
+    HeroSearchNewComponent
   ],
   imports: [
     BrowserModule,
+    NgSelectModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
