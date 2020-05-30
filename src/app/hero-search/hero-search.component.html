@@ -1,13 +1,11 @@
 <div id="search-component">
   <h4><label for="search-box">Hero Search</label></h4>
 
-  <input #searchBox id="search-box" (input)="search(searchBox.value)" />
-
-  <ul class="search-result">
-    <li *ngFor="let hero of heroes$ | async" >
-      <a routerLink="/detail/{{hero.id}}">
-        {{hero.name}}
-      </a>
-    </li>
-  </ul>
+  <!-- Selected: {{selectedHeroId}}<br/> -->
+  <ng-select id="new-search-box" [items]="heroes$ | async" (search)="search($event.term)"
+             bindLabel="name"
+             autofocus
+             bindValue="id"
+             [(ngModel)]="selectedHeroId">
+  </ng-select>
 </div>
