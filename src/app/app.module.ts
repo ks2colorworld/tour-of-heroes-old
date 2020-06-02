@@ -5,16 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
+import { InMemoryDataService } from './services/in-memory-data.service';
 
 import { AppComponent } from './app.component';
-import { HeroesComponent } from './heroes/heroes.component';
-import { HeroDetailComponent } from './hero-detail/hero-detail.component';
-import { MessagesComponent } from './messages/messages.component';
-import { AppRoutingModule } from './app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeroSearchComponent } from './hero-search/hero-search.component';
-import { HeroDetailViewComponent } from './hero-detail-view/hero-detail-view.component';
+import { HeroesComponent } from './components/hero-list/heroes.component';
+import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
+import { MessagesComponent } from './components-shared/messages/messages.component';
+import { AppRoutingModule } from './modules/app-routing.module';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HeroSearchComponent } from './components-shared/hero-search/hero-search.component';
+import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-detail-view.component';
 
 @NgModule({
   declarations: [
