@@ -33,6 +33,7 @@ export class HeroService {
     .subscribe(
       h => {
         if (h.length === 0) {
+          // 데이터가 존재하지 않을 경우 MockData 입력
           HEROES.forEach(hero => this.updateHero(hero));
         }
         this.newHeroId = 0 < h.length ? h[0].payload.doc.data().id + 1 : 11;
