@@ -6,6 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './services/in-memory-data.service';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/hero-list/heroes.component';
@@ -37,7 +40,11 @@ import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-de
     // 실제 서버가 준비되면 이 부분을 제거하면 됩니다.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
+    ),
+
+    // firebase
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
