@@ -2,10 +2,10 @@
   <h4><label for="search-box">Hero Search</label></h4>
 
   <!-- Selected: {{selectedHeroId}}<br/> -->
-  <ng-select id="search-box" [items]="heroes$ | async" (search)="search($event.term)"
+  <ng-select id="new-search-box" [items]="heroes$ | async" (search)="search($event.term)"
              bindLabel="name"
              autofocus
              bindValue="id"
-             [(ngModel)]="SelectedHeroId">
+             [(ngModel)]="selectedHeroId">
   </ng-select>
 </div>
