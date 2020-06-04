@@ -1,5 +1,7 @@
 <div *ngIf="$hero">
   <h2 >{{$hero.name | uppercase}} Details</h2 >
+    <img src="{{this.util.thumbnail($hero.imageUrl,'600x600')}}" *ngIf="$hero.imageUrl"
+      data-max-retry="5" data-retry="0" (error)="this.util.waitAndReload($event)" >
   <div><span>id: </span>{{$hero.id}}</div>
     <div *ngIf='this.$readonly'><span>name: </span>{{$hero.name}}</div>
     <div *ngIf='!this.$readonly'>
