@@ -33,16 +33,44 @@ export class UtilService {
    * @param size 50,200,600
    */
   thumbnail(url: string, size: ThumbnailSize= '50x50'): string {
+    const isHttpURL = url.startsWith('http');
     const urlPattern =
       /^(https?:\/\/)([^:\/\s]+)(:([^\/]*))?((\/[^\s/\/]+)*)?\/([^#\s\?]*)(\?([^#\s]*))?(#(\w*))?$/g;
     // url 체크 파일명  group 7
+    const localUrlPattern =
+      /((\/[^\s/\/]+)*)?\/([^#\s\?]*)(\?([^#\s]*))?(#(\w*))?$/g;
+    // url 체크 파일명  group 3
 
-    const fileName =
-      url.replace(urlPattern, '$7');
+    const fileName = isHttpURL ?
+      url.replace(urlPattern, '$7') :
+      url.replace(localUrlPattern, '$3');
     const nameSplits = fileName.split('.');
     const newFileName = `${nameSplits[0]}_${size}.${nameSplits[1]}`;
-    const newUrl = url.replace(urlPattern, `$1$2$5/${newFileName}$8`);
+    const newUrl = isHttpURL ?
+      url.replace(urlPattern, `$1$2$3$5/${newFileName}$8`) :
+      url.replace(localUrlPattern, `$1/${newFileName}$4`);
     return newUrl;
+    /*
+    urlPattern : /^(https?:\/\/)([^:\/\s]+)(:([^\/]*))?((\/[^\s/\/]+)*)?\/([^#\s\?]*)(\?([^#\s]*))?(#(\w*))?$/g
+    Match 0 : http://localhost:4300/assets/images/hero11.png?abc=123&nnn=111
+    Group 1	:	http://
+    Group 2	:	localhost
+    Group 3	:	:4300
+    Group 4	:	4300
+    Group 5	:	/assets/images
+    Group 6	:	/images
+    Group 7	:	hero11.png
+    Group 8	:	?abc=123&nnn=111
+    Group 9	:	abc=123&nnn=111
+
+    localUrlPattern : /((\/[^\s/\/]+)*)?\/([^#\s\?]*)(\?([^#\s]*))?(#(\w*))?$/g
+    Match 0 : /assets/images/hero11.png?abc=123&nnn=111
+    Group 1	: /assets/images
+    Group 2	: /images
+    Group 3	: hero11.png
+    Group 4	: ?abc=123&nnn=111
+    Group 5	: abc=123&nnn=111
+    */
   }
 
   /**

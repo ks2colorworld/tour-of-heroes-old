@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
+import { of, Observable, Subject, timer } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -8,6 +8,8 @@ import { MessageService } from './message.service';
 import { Hero } from 'src/app/classes/hero';
 import { UtilService } from './util.service';
 import { HEROES } from '../classes/mock-heroes';
+import { Attachment } from '../classes/attachment';
+import { AttachmentService } from './attachment.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,7 @@ export class HeroService {
     private firestore: AngularFirestore,
     private messageService: MessageService,
     private util: UtilService,
+    private fileService: AttachmentService,
   ) {
     this.genId();
   }
@@ -34,7 +37,7 @@ export class HeroService {
       h => {
         if (h.length === 0) {
           // 데이터가 존재하지 않을 경우 MockData 입력
-          HEROES.forEach(hero => this.updateHero(hero));
+          // HEROES.forEach(hero => this.updateHero(hero)); // 수동 입력되도록 코드 수정
         }
         this.newHeroId = 0 < h.length ? h[0].payload.doc.data().id + 1 : 11;
         console.log(this.newHeroId);
@@ -120,6 +123,24 @@ export class HeroService {
 
   }
 
+  addHeroWithImage(pHero: Hero, pFile: Attachment, pProgress: {percentage: number} ): Promise<Hero> {
+    let rHero: Hero = pHero;
+    this.fileService.pushFileToStorage(pFile, pProgress,
+      (file: Attachment) => {
+        if (file) {
+          console.log(`upload complete! ${file.key}`);
+          this.addHero({
+            name: pHero.name,
+            imageKey: file.key,
+            imageUrl: file.url,
+          }as Hero).then(hero => {
+            rHero = hero;
+          });
+        }
+      });
+    return of(rHero).toPromise();
+  }
+
   updateHero(hero: Hero): Promise<any> {
     return this.firestore.collection<Hero>(
       this.collectionName
@@ -133,9 +154,22 @@ export class HeroService {
     });
   }
 
-  deleteHero(pHero: Hero|number): Promise<any> {
+  deleteHero(pHero: Hero): Promise<any> { // 매개변수 number 타입 삭제
+    // 첨부파일 확인 후 비동기 삭제시도
+    if (pHero.imageKey) { // (typeof pHero !== 'number' && pHero.imageKey) {
+      this.fileService.deleteFileFromStorage({key: pHero.imageKey, name: pHero.name + ' images'}as Attachment);
+    }
+    // else if (typeof pHero === 'number') {
+    //   this.getHero(pHero).then(h => {
+    //     if (h.imageKey) {
+    //       this.fileService.deleteFileFromStorage({key: h.imageKey, name: h.name + ' images'} as Attachment);
+    //     }
+    //   });
+    // }
+
     const id = typeof pHero === 'number' ? pHero : pHero.id;
     const hero: Hero = typeof pHero === 'number' ? {id: pHero, name: 'deletedHero'} : pHero;
+
     return this.firestore.doc<Hero>(
       `${this.collectionName}/${id}`
     ).delete().then(_ => {
@@ -146,6 +180,28 @@ export class HeroService {
     });
   }
 
+  setMockHeroes(): Observable<boolean> {
+    let count = 0;
+    const complete = new Subject<boolean>();
+    console.log('mock data upload start');
+
+    complete.next(false);
+    HEROES.forEach((hero, index) => {
+      console.log('count:', count);
+      timer(1000 * count).subscribe(_ => {
+        console.log('index:', index);
+        this.updateHero(hero).then(() => {
+          if (index + 1 === count) {
+            console.log('mock data upload complete');
+            complete.next(true);
+          }
+        });
+      });
+      count++;
+    });
+
+    return complete;
+  }
 
   private log(message: string) {
     this.messageService.add(`Hero-firebaseService: ${message}`);
