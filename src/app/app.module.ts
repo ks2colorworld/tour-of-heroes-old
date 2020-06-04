@@ -16,12 +16,16 @@ import { HeroesComponent } from './components/hero-list/heroes.component';
 import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
 import { MessagesComponent } from './components-shared/messages/messages.component';
 import { AppRoutingModule } from './modules/app-routing.module';
+import { SampleRoutingModule } from './modules/sample-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeroSearchComponent } from './components-shared/hero-search/hero-search.component';
 import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-detail-view.component';
 import { AttachmentListComponent } from './components-shared/attachment-list/attachment-list.component';
 import { AttachmentUploadComponent } from './components-shared/attachment-upload/attachment-upload.component';
 import { AttachmentListContainerComponent } from './components/attachment-list-container/attachment-list-container.component';
+import { SampleNavComponent } from './sample/sample-nav/sample-nav.component';
+import { OnChangeChildComponent } from './sample/on-change/on-change-child/on-change-child.component';
+import { OnChangeParentComponent } from './sample/on-change/on-change-parent/on-change-parent.component';
 
 @NgModule({
   declarations: [
@@ -34,13 +38,17 @@ import { AttachmentListContainerComponent } from './components/attachment-list-c
     HeroDetailViewComponent,
     AttachmentListComponent,
     AttachmentUploadComponent,
-    AttachmentListContainerComponent
+    AttachmentListContainerComponent,
+    SampleNavComponent,
+    OnChangeChildComponent,
+    OnChangeParentComponent
   ],
   imports: [
     BrowserModule,
     NgSelectModule,
     FormsModule,
     AppRoutingModule,
+    SampleRoutingModule,
     HttpClientModule,
 
     // HttpClientInMemoryWebApiModule 모듈은 HTTP 요청을 가로채고 서버의 응답을 흉내냅니다.
