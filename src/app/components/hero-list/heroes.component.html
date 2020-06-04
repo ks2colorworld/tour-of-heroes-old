@@ -21,7 +21,7 @@
 
 <div>
   <label>Hero name:
-    <input #heroName>
+    <input #heroName (keyup.enter)="add(heroName.value); heroName.value=this.isHeroImageUpload?heroName.value:'';">
   </label>
   <button [disabled]="this.isHeroImageUpload" (click)='this.add(heroName.value); heroName.value=""'>
     add

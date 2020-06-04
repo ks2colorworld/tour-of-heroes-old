@@ -36,6 +36,9 @@ export class HeroesComponent implements OnInit {
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
+    if (this.isHeroImageUpload) {
+      return;
+    }
     this.heroService.addHero({ name } as Hero).then(
       hero => {
         this.heroes.push(hero);
