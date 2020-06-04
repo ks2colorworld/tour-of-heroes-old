@@ -1,9 +1,18 @@
 <h2>My Heroes</h2>
 
+<div *ngIf="this.heroes.length === 0">
+  <button (click)="this.setMockData()">input mock data</button>
+  >>
+  <button (click)='this.getHeroes()'>get heroes</button>
+</div>
+
 <ul class="heroes">
   <li *ngFor="let hero of heroes">
-    <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}
+    <a routerLink='/detail/{{hero.id}}'>
+      <span class="badge">{{hero.id}}</span>
+      <img class="heroimage" src="{{this.util.thumbnail(hero.imageUrl)}}" *ngIf="hero.imageUrl"
+        data-max-retry="2" data-retry="0" (error)="this.util.waitAndReload($event)">
+        {{hero.name}}
     </a>
     <button class="delete" title="delete hero"
       (click)="delete(hero)">x</button>
@@ -12,10 +21,18 @@
 
 <div>
   <label>Hero name:
-    <input #heroName (keyup.enter)="add(heroName.value); heroName.value=''"/>
+    <input #heroName>
   </label>
-  <!-- (click) 이벤트를 감지하면 현재값을 인자로 전달하면서 add() 함수를 실행하고, 입력 필드를 비웁니다. -->
-  <button (click)="add(heroName.value); heroName.value=''">
+  <button [disabled]="this.isHeroImageUpload" (click)='this.add(heroName.value); heroName.value=""'>
     add
   </button>
+  <input #heroImage type="checkbox"
+    (change)='this.isHeroImageUpload = heroImage.checked'>with hero image
+</div>
+<div>
+  <!-- TODO : heroName이 빈칸 체크 후 이미지 업로드 방법? custom component 쉽게 조작요령? -->
+  <app-attachment-upload *ngIf="this.isHeroImageUpload"
+  [__UploadLabel__]='"upload & add"'
+  [__FileAccept__]='"image/gif, image/jpeg, image/png"'
+  (__UploadComplete__)='this.uploadCompleteCallback($event,this.heroName.value); this.heroName.value=""'></app-attachment-upload>
 </div>
