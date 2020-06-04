@@ -1,0 +1,10 @@
+<h4>File Upload</h4>
+<app-attachment-upload
+  [__UploadLabel__]='"Upload & Reload"'
+  [__FileAccept__]='"image/gif, image/jpeg, image/png"'
+  (__UploadComplete__)='this.attachmentList.getFileList()'>
+</app-attachment-upload>
+<!-- <app-attachment-upload (__UploadComplete__)='this.doSomething($event)'></app-attachment-upload> -->
+
+<h4>List of Files</h4>
+<app-attachment-list #attachmentList ></app-attachment-list>

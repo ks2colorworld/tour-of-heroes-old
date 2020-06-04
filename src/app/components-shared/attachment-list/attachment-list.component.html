@@ -1,0 +1,13 @@
+<div>
+  <div *ngFor="let file of this.files">
+    <div>
+      <button (click)='this.selectedFile=file'>{{file.name}}</button>
+      <button (click)='this.deleteFile(file)'>X</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="this.selectedFile">
+  <img width="100%" attr.src='{{this.selectedFile.url}}'>
+</div>
+<!-- <button (click)='getFileList()'>reload</button> -->

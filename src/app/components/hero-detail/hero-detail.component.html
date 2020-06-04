@@ -1,3 +1,14 @@
 <app-hero-detail-view [$hero]='this.hero' [$readonly]='false'></app-hero-detail-view>
+<div>
+  <!-- TODO : heroName이 빈칸 체크 후 이미지 업로드 방법? custom component 쉽게 조작요령? -->
+  <app-attachment-upload *ngIf="this.isHeroImageUpload"
+  [__UploadLabel__]='"upload & save"'
+  [__FileAccept__]='"image/gif, image/jpeg, image/png"'
+  (__UploadComplete__)='this.uploadCompleteCallback($event)'></app-attachment-upload>
+</div>
+<div class="checkbox-hero-image" *ngIf="this.hero && !(this.hero.imageKey||this.hero.imageUrl)">
+  <input #heroImage type="checkbox"
+    (change)='this.isHeroImageUpload = heroImage.checked'>with hero image
+</div>
 <button (click)='this.goBack()'>go back</button>
-<button (click)='this.updateHero()' *ngIf="this.hero">save</button>
+<button (click)='this.updateHero()' *ngIf="this.hero" [disabled]="this.isHeroImageUpload">save</button>

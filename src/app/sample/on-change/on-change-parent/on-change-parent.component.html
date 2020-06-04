@@ -1,0 +1,14 @@
+<p>on-change-parent.component</p>
+
+<div>
+  <button (click)="changeFromParent()">Change from parent</button>
+  <br/>
+  parentDate(data) : {{data}}
+</div>
+
+<br/><br/><br/>
+
+<app-on-change-child
+  [parentData]='data'
+  (clickChangeDataButton)='changeFromParent()'>
+</app-on-change-child>
