@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 // import { InMemoryDataService } from './services/in-memory-data.service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
@@ -18,6 +19,9 @@ import { AppRoutingModule } from './modules/app-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeroSearchComponent } from './components-shared/hero-search/hero-search.component';
 import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-detail-view.component';
+import { AttachmentListComponent } from './components-shared/attachment-list/attachment-list.component';
+import { AttachmentUploadComponent } from './components-shared/attachment-upload/attachment-upload.component';
+import { AttachmentListContainerComponent } from './components/attachment-list-container/attachment-list-container.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,10 @@ import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-de
     MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
-    HeroDetailViewComponent
+    HeroDetailViewComponent,
+    AttachmentListComponent,
+    AttachmentUploadComponent,
+    AttachmentListContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +52,7 @@ import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-de
     // firebase
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireStorageModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
