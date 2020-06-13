@@ -23,7 +23,7 @@ import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-de
 import { AttachmentListComponent } from './components-shared/attachment-list/attachment-list.component';
 import { AttachmentUploadComponent } from './components-shared/attachment-upload/attachment-upload.component';
 import { AttachmentListContainerComponent } from './components/attachment-list-container/attachment-list-container.component';
-import { SampleNavComponent } from './sample/sample-nav/sample-nav.component';
+import { SampleNavComponent } from './sample/__sample-nav/sample-nav.component';
 import { OnChangeChildComponent } from './sample/on-change/on-change-child/on-change-child.component';
 import { OnChangeParentComponent } from './sample/on-change/on-change-parent/on-change-parent.component';
 
