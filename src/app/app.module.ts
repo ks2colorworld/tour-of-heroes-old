@@ -15,6 +15,7 @@ import { environment } from '../environments/environment';
 import { AuthGuard } from './core/auth.guard';
 import { AuthService } from './core/auth.service';
 import { UserService } from './core/user.service';
+import { UserResolver } from './core/user.resolver';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/hero-list/heroes.component';
@@ -78,7 +79,8 @@ import { UserComponent } from './components/user/user.component';
   providers: [
     AuthService,
     UserService,
-    AuthGuard
+    AuthGuard,
+    UserResolver,
   ],
   bootstrap: [AppComponent]
 })
