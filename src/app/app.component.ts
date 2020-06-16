@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { UserService } from './core/user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,9 @@ export class AppComponent {
   public get title(): string {
     return environment.production ? this._title : `${this._title} (not prod)`;
   }
+
+  constructor(
+    public userService: UserService
+  ) { }
+
 }

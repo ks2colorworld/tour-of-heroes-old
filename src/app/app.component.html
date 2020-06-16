@@ -1,5 +1,6 @@
 <h1>{{title}}</h1>
-<div><a routerLink="/register">Sign Up</a> | <a routerLink="/login">Sign In</a></div>
+<div><a routerLink="/register">Sign Up</a> | <a routerLink="/login">Sign In</a> </div>
+<div><a routerLink='/user'>(user-image) user-name</a> <button (click)='this.userService.logout()'>Sign Out</button></div>
 <nav>
   <a routerLink="/dashboard">Dashboard</a>
   <a routerLink="/heroes">Heroes</a>
