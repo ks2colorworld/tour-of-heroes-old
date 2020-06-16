@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class UserService {
 
   constructor(
    public db: AngularFirestore,
-   public afAuth: AngularFireAuth
+   public afAuth: AngularFireAuth,
+   public authService: AuthService,
+   private location: Location,
  ) { }
 
 
@@ -26,7 +30,7 @@ export class UserService {
     });
   }
 
-  updateCurrentUser(value: { name: any; }): Promise<any> {
+  updateCurrentUser(value: { name: string; }): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       const user =
         firebase.auth().currentUser;
@@ -36,6 +40,16 @@ export class UserService {
       }).then(res => {
         resolve(res);
       }, err => reject(err));
+    });
+  }
+
+
+  logout(){
+    this.authService.doLogout()
+    .then((res) => {
+      this.location.back();
+    }, (error) => {
+      console.log('Logout error', error);
     });
   }
 }
