@@ -1,15 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 // import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 // import { InMemoryDataService } from './services/in-memory-data.service';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
+
+import { AuthGuard } from './core/auth.guard';
+import { AuthService } from './core/auth.service';
+import { UserService } from './core/user.service';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/hero-list/heroes.component';
@@ -26,6 +31,9 @@ import { AttachmentListContainerComponent } from './components/attachment-list-c
 import { SampleNavComponent } from './sample/__sample-nav/sample-nav.component';
 import { OnChangeChildComponent } from './sample/on-change/on-change-child/on-change-child.component';
 import { OnChangeParentComponent } from './sample/on-change/on-change-parent/on-change-parent.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -41,12 +49,16 @@ import { OnChangeParentComponent } from './sample/on-change/on-change-parent/on-
     AttachmentListContainerComponent,
     SampleNavComponent,
     OnChangeChildComponent,
-    OnChangeParentComponent
+    OnChangeParentComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
     NgSelectModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     SampleRoutingModule,
     HttpClientModule,
@@ -59,10 +71,15 @@ import { OnChangeParentComponent } from './sample/on-change/on-change-parent/on-
 
     // firebase
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    UserService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
