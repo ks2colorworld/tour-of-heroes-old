@@ -3,9 +3,9 @@ import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { FirebaseUserModel } from 'src/app/core/user.model';
-import { UserService } from 'src/app/core/user.service';
-import { AuthService } from 'src/app/core/auth.service';
+import { FirebaseUserModel } from 'src/app/classes/user.model';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { UtilService } from 'src/app/services/util.service';
 
 @Component({

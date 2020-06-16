@@ -12,10 +12,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 
-import { AuthGuard } from './core/auth.guard';
-import { AuthService } from './core/auth.service';
-import { UserService } from './core/user.service';
-import { UserResolver } from './core/user.resolver';
+import { AuthGuard } from './services/auth.guard';
+import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
+import { UserResolver } from './services/user.resolver';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/hero-list/heroes.component';

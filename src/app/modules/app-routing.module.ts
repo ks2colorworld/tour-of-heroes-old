@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '../core/auth.guard';
-import { UserResolver } from '../core/user.resolver';
+import { AuthGuard } from '../services/auth.guard';
+import { UserResolver } from '../services/user.resolver';
 
 import { DashboardComponent } from '../components/dashboard/dashboard.component';
 import { HeroDetailComponent } from '../components/hero-detail/hero-detail.component';
