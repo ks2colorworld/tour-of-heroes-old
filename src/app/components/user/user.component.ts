@@ -29,28 +29,28 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(routeData => {
-      const data = routeData.data;
-      if (data) {
-        this.user = data;
+      const userData = routeData.userData;
+      if (userData) {
+        this.user = userData;
         this.createForm(this.user.name);
       }
     });
   }
 
-  createForm(name: string) {
+  createForm(name: string): void {
     this.profileForm = this.fb.group({
       name: [name, Validators.required ]
     });
   }
 
-  save(value: { name: string; }){
+  save(value: { name: string; }): void {
     this.userService.updateCurrentUser(value)
     .then(res => {
       console.log(res);
     }, err => console.log(err));
   }
 
-  logout(){
+  logout(): void {
     this.authService.doLogout()
     .then((res) => {
       this.location.back();

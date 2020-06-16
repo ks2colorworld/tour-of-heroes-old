@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'sample', component: SampleNavComponent },
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
-  { path: 'user', component: UserComponent,  resolve: { data: UserResolver}}
+  { path: 'user', component: UserComponent,  resolve: { userData: UserResolver}}
 ];
 
 
