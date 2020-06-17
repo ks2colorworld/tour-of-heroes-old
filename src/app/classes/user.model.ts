@@ -1,4 +1,8 @@
 export class FirebaseUserModel {
+  get isLogin(): boolean {
+    return this.name !== '';
+  }
+
   image: string;
   name: string;
   provider: string;
