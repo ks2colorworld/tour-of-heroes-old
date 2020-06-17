@@ -3,18 +3,69 @@ import { Location } from '@angular/common';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { AuthService } from './auth.service';
+import { FirebaseUserModel } from '../classes/user.model';
+import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 
-@Injectable()
-export class UserService {
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService implements Resolve<FirebaseUserModel>  {
 
   constructor(
    public db: AngularFirestore,
    public afAuth: AngularFireAuth,
-   public authService: AuthService,
-   private location: Location,
- ) { }
+   private router: Router
+  ) { }
 
+  /**
+   * implements Resolve<FirebaseUserModel> /
+   * app-routing.module 에서 사용예시 :
+   * { path: 'user', component: UserComponent,  resolve: { userData: UserService}}
+   */
+  resolve(route: ActivatedRouteSnapshot): Promise<FirebaseUserModel> {
+    const user = new FirebaseUserModel();
+    return new Promise((resolve, reject) => {
+      this.getCurrentUser()
+      .then(res => {
+        if (res.providerData[0].providerId === 'password') {
+          user.image = 'https://via.placeholder.com/400x300';
+          user.name = res.displayName;
+          user.provider = res.providerData[0].providerId;
+          return resolve(user);
+        } else {
+          user.image = res.photoURL;
+          user.name = res.displayName;
+          user.provider = res.providerData[0].providerId;
+          return resolve(user);
+        }
+      }, err => {
+        this.router.navigate(['/login']);
+        return reject(err);
+      });
+    });
+  }
+
+  getUserInfo(): Promise<FirebaseUserModel> {
+    const user = new FirebaseUserModel();
+    return new Promise((resolve, reject) => {
+      this.getCurrentUser()
+      .then(res => {
+        if (res.providerData[0].providerId === 'password') {
+          user.image = 'https://via.placeholder.com/400x300'; // TODO : 기본 프로필 이미지 변경
+          user.name = res.displayName;
+          user.provider = res.providerData[0].providerId;
+          return resolve(user);
+        } else {
+          user.image = res.photoURL;
+          user.name = res.displayName;
+          user.provider = res.providerData[0].providerId;
+          return resolve(user);
+        }
+      }, err => {
+        return reject(err);
+      });
+    });
+  }
 
   getCurrentUser(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
@@ -40,16 +91,6 @@ export class UserService {
       }).then(res => {
         resolve(res);
       }, err => reject(err));
-    });
-  }
-
-
-  logout(){
-    this.authService.doLogout()
-    .then((res) => {
-      this.location.back();
-    }, (error) => {
-      console.log('Logout error', error);
     });
   }
 }

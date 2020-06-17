@@ -1,13 +1,36 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
+import { CanActivate, Router } from '@angular/router';
+import { UserService } from './user.service';
 
-@Injectable()
-export class AuthService {
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService implements CanActivate {
 
   constructor(
-   public afAuth: AngularFireAuth
+   public afAuth: AngularFireAuth,
+   public userService: UserService,
+   private router: Router
  ) {}
+
+  /**
+   * implements CanActivate /
+   * app-routing.module 에서 사용예시 :
+   * { path: 'login', component: LoginComponent, canActivate: [AuthService] }
+   */
+  canActivate(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.userService.getCurrentUser()
+      .then(user => {
+        this.router.navigate(['/user']);
+        return resolve(false);
+      }, err => {
+        return resolve(true);
+      });
+    });
+  }
 
   doFacebookLogin(): Promise<any> {
     return new Promise<any>((resolve, reject) => {

@@ -12,11 +12,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 
-import { AuthGuard } from './services/auth.guard';
-import { AuthService } from './services/auth.service';
-import { UserService } from './services/user.service';
-import { UserResolver } from './services/user.resolver';
-
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/hero-list/heroes.component';
 import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
@@ -76,12 +71,7 @@ import { UserComponent } from './components/user/user.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
   ],
-  providers: [
-    AuthService,
-    UserService,
-    AuthGuard,
-    UserResolver,
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
