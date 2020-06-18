@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,9 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
 
   constructor(
-    public authService: AuthService,
+    private authService: AuthService,
+    private userService: UserService,
+    private messageService: MessageService,
     private router: Router,
     private fb: FormBuilder
   ) { }
@@ -47,6 +51,11 @@ export class LoginComponent implements OnInit {
   tryGoogleLogin(): void {
     this.authService.doGoogleLogin()
     .then(res => {
+      this.userService.getCurrentUserInfo().then(
+        user => {
+          this.authService.authStateUpdated$.emit(user);
+        }
+      );
       this.router.navigate(['/user']);
     });
   }
