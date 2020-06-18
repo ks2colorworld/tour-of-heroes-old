@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { TodoItem, EventServiceSampleService } from './event-service-sample.service';
+import { TodoItem, EventServiceSampleService } from '../event-service-sample.service';
 
 @Component({
   selector: 'app-event-emitter-sample',

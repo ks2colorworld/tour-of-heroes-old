@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { take, takeUntil, takeWhile } from 'rxjs/operators';
-import { EventServiceSampleService, TodoItem } from '../event-emitter-sample/event-service-sample.service';
+import { EventServiceSampleService, TodoItem } from '../event-service-sample.service';
 import { Subject } from 'rxjs';
 
 @Component({
