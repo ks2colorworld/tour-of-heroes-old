@@ -13,6 +13,15 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
+
+import { SampleNavComponent } from './sample/__sample-nav/sample-nav.component';
+import { OnChangeChildComponent } from './sample/on-change/on-change-child/on-change-child.component';
+import { OnChangeParentComponent } from './sample/on-change/on-change-parent/on-change-parent.component';
+import { CountClicksDirective } from './sample/custom-event/count-clicks.directive';
+import { HostListenerSampleComponent } from './sample/custom-event/host-listener-sample/host-listener-sample.component';
+import { EventEmitterSampleComponent } from './sample/custom-event/event-emitter-sample/event-emitter-sample.component';
+import { CustomEventComponent } from './sample/custom-event/custom-event/custom-event.component';
+
 import { HeroesComponent } from './components/hero-list/heroes.component';
 import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
 import { MessagesComponent } from './components-shared/messages/messages.component';
@@ -24,9 +33,6 @@ import { HeroDetailViewComponent } from './components/hero-detail-viewer/hero-de
 import { AttachmentListComponent } from './components-shared/attachment-list/attachment-list.component';
 import { AttachmentUploadComponent } from './components-shared/attachment-upload/attachment-upload.component';
 import { AttachmentListContainerComponent } from './components/attachment-list-container/attachment-list-container.component';
-import { SampleNavComponent } from './sample/__sample-nav/sample-nav.component';
-import { OnChangeChildComponent } from './sample/on-change/on-change-child/on-change-child.component';
-import { OnChangeParentComponent } from './sample/on-change/on-change-parent/on-change-parent.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
@@ -34,6 +40,16 @@ import { UserComponent } from './components/user/user.component';
 @NgModule({
   declarations: [
     AppComponent,
+
+    // sample component list
+    SampleNavComponent,
+    OnChangeChildComponent,
+    OnChangeParentComponent,
+    CountClicksDirective,
+    HostListenerSampleComponent,
+    EventEmitterSampleComponent,
+    CustomEventComponent,
+
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
@@ -43,9 +59,6 @@ import { UserComponent } from './components/user/user.component';
     AttachmentListComponent,
     AttachmentUploadComponent,
     AttachmentListContainerComponent,
-    SampleNavComponent,
-    OnChangeChildComponent,
-    OnChangeParentComponent,
     LoginComponent,
     RegisterComponent,
     UserComponent
