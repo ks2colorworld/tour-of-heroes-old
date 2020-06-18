@@ -1,17 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { CanActivate, Router } from '@angular/router';
 import { UserService } from './user.service';
+import { FirebaseUserModel } from '../classes/user.model';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements CanActivate {
 
+  authStateUpdated$: EventEmitter<FirebaseUserModel> = new EventEmitter();
+
   constructor(
-   public afAuth: AngularFireAuth,
-   public userService: UserService,
+   private afAuth: AngularFireAuth,
+   private userService: UserService,
+   private messageService: MessageService,
    private router: Router
  ) {}
 
@@ -22,7 +27,7 @@ export class AuthService implements CanActivate {
    */
   canActivate(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.userService.getCurrentUser()
+      this.userService.getCurrentUserRawInfo()
       .then(user => {
         this.router.navigate(['/user']);
         return resolve(false);
@@ -71,6 +76,7 @@ export class AuthService implements CanActivate {
       this.afAuth
       .signInWithPopup(provider)
       .then(res => {
+        this.log('Login Complete!! (with Google)');
         resolve(res);
       }, err => {
         console.log(err);
@@ -103,7 +109,9 @@ export class AuthService implements CanActivate {
     return new Promise((resolve, reject) => {
       if (// firebase.auth().
       this.afAuth.currentUser) {
-        this.afAuth.signOut();
+        this.afAuth.signOut().then(_ => this.authStateUpdated$.emit(new FirebaseUserModel()));
+        this.router.navigate(['/']);
+        this.log('Logout Complete!!');
         resolve();
       } else {
         reject();
@@ -111,5 +119,7 @@ export class AuthService implements CanActivate {
     });
   }
 
-
+  private log(message: string) {
+    this.messageService.add(`authService: ${message}`);
+  }
 }

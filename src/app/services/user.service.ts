@@ -1,6 +1,4 @@
-import { Injectable } from '@angular/core';
-import { Location } from '@angular/common';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Injectable, EventEmitter } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { FirebaseUserModel } from '../classes/user.model';
@@ -9,11 +7,12 @@ import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService implements Resolve<FirebaseUserModel>  {
+export class UserService implements Resolve<FirebaseUserModel> {
+
+  userInfoUpdated$: EventEmitter<FirebaseUserModel> = new EventEmitter();
 
   constructor(
-   public db: AngularFirestore,
-   public afAuth: AngularFireAuth,
+   private afAuth: AngularFireAuth,
    private router: Router
   ) { }
 
@@ -23,42 +22,33 @@ export class UserService implements Resolve<FirebaseUserModel>  {
    * { path: 'user', component: UserComponent,  resolve: { userData: UserService}}
    */
   resolve(route: ActivatedRouteSnapshot): Promise<FirebaseUserModel> {
-    const user = new FirebaseUserModel();
     return new Promise((resolve, reject) => {
-      this.getCurrentUser()
-      .then(res => {
-        if (res.providerData[0].providerId === 'password') {
-          user.image = 'https://via.placeholder.com/400x300';
-          user.name = res.displayName;
-          user.provider = res.providerData[0].providerId;
-          return resolve(user);
-        } else {
-          user.image = res.photoURL;
-          user.name = res.displayName;
-          user.provider = res.providerData[0].providerId;
-          return resolve(user);
-        }
-      }, err => {
-        this.router.navigate(['/login']);
-        return reject(err);
-      });
+      this.getCurrentUserInfo().then(
+        res => {
+          return resolve(res);
+        }, err => {
+          this.router.navigate(['/login']); // 사용자 정보가 없을 경우 로그인 화면으로 강제 이동한다.
+          return reject(err);
+        });
     });
   }
 
-  getUserInfo(): Promise<FirebaseUserModel> {
+  getCurrentUserInfo(): Promise<FirebaseUserModel> {
     const user = new FirebaseUserModel();
     return new Promise((resolve, reject) => {
-      this.getCurrentUser()
+      this.getCurrentUserRawInfo()
       .then(res => {
         if (res.providerData[0].providerId === 'password') {
           user.image = 'https://via.placeholder.com/400x300'; // TODO : 기본 프로필 이미지 변경
           user.name = res.displayName;
           user.provider = res.providerData[0].providerId;
+          this.userInfoUpdated$.emit(user);
           return resolve(user);
         } else {
           user.image = res.photoURL;
           user.name = res.displayName;
           user.provider = res.providerData[0].providerId;
+          this.userInfoUpdated$.emit(user);
           return resolve(user);
         }
       }, err => {
@@ -67,7 +57,7 @@ export class UserService implements Resolve<FirebaseUserModel>  {
     });
   }
 
-  getCurrentUser(): Promise<any> {
+  getCurrentUserRawInfo(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       // const user = firebase.auth().onAuthStateChanged
       this.afAuth.onAuthStateChanged
@@ -75,7 +65,7 @@ export class UserService implements Resolve<FirebaseUserModel>  {
         if (rUser) {
           resolve(rUser);
         } else {
-          reject('No user logged in');
+          reject('No user logged in'); // TODO: 오류처리방법
         }
       });
     });
@@ -83,8 +73,7 @@ export class UserService implements Resolve<FirebaseUserModel>  {
 
   updateCurrentUser(value: { name: string; }): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      const user =
-        firebase.auth().currentUser;
+      const user = firebase.auth().currentUser;
       user.updateProfile({
         displayName: value.name,
         photoURL: user.photoURL
