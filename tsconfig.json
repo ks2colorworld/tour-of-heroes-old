@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true, // firebase for javascript import
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

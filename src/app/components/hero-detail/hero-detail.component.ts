@@ -3,6 +3,7 @@ import { Hero } from 'src/app/classes/hero';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from 'src/app/services/hero-fire.service';
 import { Location } from '@angular/common';
+import { Attachment } from 'src/app/classes/attachment';
 
 @Component({
   selector: 'app-hero-detail',
@@ -11,6 +12,12 @@ import { Location } from '@angular/common';
 })
 export class HeroDetailComponent implements OnInit {
   hero: Hero;
+
+  // for fileUpload
+  selectedFiles: FileList;
+  isHeroImageUpload = false;
+  currentFile: Attachment;
+  progress: {percentage: number} = {percentage: 0};
 
   constructor(
     private route: ActivatedRoute,
@@ -39,5 +46,14 @@ export class HeroDetailComponent implements OnInit {
         this.goBack();
       }
     );
+  }
+
+  uploadCompleteCallback(event: any) {
+    const fileInfo = event.value as Attachment;
+    this.hero.imageKey = fileInfo.key;
+    this.hero.imageUrl = fileInfo.url;
+    this.heroService.updateHero(
+      this.hero
+    ).then(_ => this.goBack());
   }
 }

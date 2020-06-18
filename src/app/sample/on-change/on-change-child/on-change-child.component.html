@@ -1,0 +1,15 @@
+<p>on-change-child.component - ngOnChanges(e: SimpleChanges)</p>
+
+<div>
+  <button (click)="changeFromChild()">Change from child</button>
+  <br/>
+  parentDate(@Input() parentData) : {{parentData}}
+</div>
+
+<p>(child) console 확인 >> SimpleChange 변수를 통해서 변동되는 값 확인 가능</p>
+<pre>
+샘플 데이터
+previousValue: 0,
+currentValue: 1,
+firstChange: false
+</pre>
