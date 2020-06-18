@@ -182,10 +182,10 @@ export class HeroService {
 
   setMockHeroes(): Observable<boolean> {
     let count = 0;
-    const complete = new Subject<boolean>();
+    const isComplete = new Subject<boolean>();
     console.log('mock data upload start');
 
-    complete.next(false);
+    isComplete.next(false);
     HEROES.forEach((hero, index) => {
       console.log('count:', count);
       timer(1000 * count).subscribe(_ => {
@@ -193,14 +193,15 @@ export class HeroService {
         this.updateHero(hero).then(() => {
           if (index + 1 === count) {
             console.log('mock data upload complete');
-            complete.next(true);
+            isComplete.next(true);
+            // isComplete.complete(); //Subject.complete() 호출하면 subscribe()가 종료된다.
           }
         });
       });
       count++;
     });
 
-    return complete;
+    return isComplete;
   }
 
   private log(message: string) {
